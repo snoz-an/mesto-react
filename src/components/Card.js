@@ -2,7 +2,7 @@ import React from 'react';
 import Like from '../images/like.svg';
 import Delete from '../images/card-delete.svg'
 
-function Cards(props) {
+function Card(props) {
     const cardData = props.cardData;
     function handleClick() {
         props.onCardClick(cardData);
@@ -28,4 +28,4 @@ function Cards(props) {
 
 }
 
-export default Cards
+export default Card

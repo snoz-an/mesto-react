@@ -2,19 +2,18 @@ import editButton from '../images/edit__button.svg'
 import addButton from '../images/add__button.svg'
 import React from 'react';
 import api from '../utils/Api'
+import Card from './Card'
 
 function Main(props) {
 
 const [userName, setUserName] = React.useState()
 const [userDescription , setUserDescription ] = React.useState()
 const [userAvatar, setUserAvatar] = React.useState()
-
+const [cards, setCards] = React.useState([])
 
 React.useEffect(()=>{
-    function setProfile() {
-        const infoUser = api.getUserProfile()
-        infoUser
-        .then((info)=>{
+    api.getUserProfile()
+    .then((info)=>{
             setUserName(info.name)
             setUserDescription(info.about)
             setUserAvatar(info.avatar)
@@ -22,14 +21,20 @@ React.useEffect(()=>{
         .catch((err)=>{
             console.log(err)
         })
-    }
-    setProfile()
-})
+}, [])
 
-
+React.useEffect(()=>{
+    api.getInitialCards()
+    .then((data)=>{
+        setCards(data)
+        })
+        .catch((err)=>{
+          console.log(err)
+        })
+}, [])
 
     return(
-        
+        <>
         <main>
             <section className="profile">   
                 <div className="profile__container">     
@@ -41,17 +46,24 @@ React.useEffect(()=>{
                                     <img src={editButton} alt="ручка" className="profile__edit-button-vector"/>
                                 </button>
                             </div>
-    <p className="profile__activity">{userDescription}</p>          
+                            <p className="profile__activity">{userDescription}</p>          
                         </div>
                 </div>
                 <button type="button" className="profile__add-button"  onClick={props.onAddPlace}>
                     <img src={addButton} alt="добавить" className="profile__add-button-vector"/>
                 </button>
-            </section>
-           
+            </section>    
         </main>
 
-        
+        <div id="elementsTemplate">
+            <div className="elements cards">
+              {cards.map((card)=> (
+                <Card key={card._id} cardData={card} onCardClick={props.onCardClick}/>
+               )
+               )}
+            </div>
+        </div> 
+        </> 
     ) 
 }
 

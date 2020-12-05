@@ -4,42 +4,25 @@ import Main from './Main'
 import Footer from './Footer'
 import PopupWidthForm from './PopupWidthForm';
 import ImagePopup from './ImagePopup';
-import Card from './Card'
-import api from '../utils/Api'
 
 function App() {
-
-  const [cards, setCards] = React.useState([])
-
-React.useEffect(()=>{
-    const infoCards = api.getInitialCards()
-        infoCards
-        .then((data)=>{
-            setCards(data)
-  
-        })
-        .catch((err)=>{
-          console.log(err)
-      })
-    
-}, [])
 
 const [isEditProfilePopupOpen, setProfilePopupOpen] = React.useState(false)
 
 function handleEditProfileClick() {
-    setProfilePopupOpen(!isEditProfilePopupOpen)
+  setProfilePopupOpen(!isEditProfilePopupOpen)
 }
 
 const [isAddPlacePopupOpen, setAddPlacePopupOpen] = React.useState(false)
 
 function handleAddPlaceClick() {
-    setAddPlacePopupOpen(!isAddPlacePopupOpen)
+  setAddPlacePopupOpen(!isAddPlacePopupOpen)
 }
 
 const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = React.useState(false)
 
 function handleEditAvatarClick() {
-    setEditAvatarPopupOpen(!isEditAvatarPopupOpen)
+  setEditAvatarPopupOpen(!isEditAvatarPopupOpen)
 }
 
 const [selectedCard, setSelectedCard] = React.useState(false)
@@ -60,15 +43,7 @@ function closeAllPopups() {
     <>
 
 <Header/>
-<Main onEditProfile={handleEditProfileClick} onAddPlace={handleAddPlaceClick} onEditAvatar={handleEditAvatarClick} />
-<div id="elementsTemplate">
-  <div className="elements cards">
-      {cards.map((card)=> (
-        <Card key={card._id} cardData={card} onCardClick={handleCardClick}/>
-       )
-       )}
-  </div>
-</div> 
+<Main onEditProfile={handleEditProfileClick} onAddPlace={handleAddPlaceClick} onEditAvatar={handleEditAvatarClick} onCardClick={handleCardClick}/>
 <Footer/>
 <PopupWidthForm isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} name="popupEdit" title="Редактировать профиль" textBtn="Сохранить"  children = {
 <>
@@ -96,7 +71,7 @@ function closeAllPopups() {
 }/>
 
 <PopupWidthForm name="popupWarning" title="Вы уверены" textBtn="Да" />
-<ImagePopup onClose={closeAllPopups} card={selectedCard}/>
+<ImagePopup onClose={closeAllPopups} card={selectedCard} />
 
 </>
   );
